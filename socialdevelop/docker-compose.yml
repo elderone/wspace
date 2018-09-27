@@ -1,0 +1,21 @@
+version: "3"
+
+networks:
+  webproxy:
+    external: true
+
+services:
+  socialdevelop-server:
+    image: nginx:alpine
+    volumes:
+    - ./conf/server.conf:/etc/nginx/conf.d/server.conf
+    - ./conf/index.html:/var/www/index.html
+    environment:
+    - VIRTUAL_HOST=socialdevelop-server.localhost
+    networks:
+    - webproxy
+
+  socialdevelop-client:
+    image: php:fpm-alpine
+    volumes:
+    - ./conf/index.html:/var/www/index.html
