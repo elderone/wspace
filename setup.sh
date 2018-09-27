@@ -1,11 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-docker network create socialdevelop-client-network || true
-docker network create socialdevelop-server-network || true
-docker network create secondtest-client-network || true
+docker network create webproxy || true
 
-cd socialdevelop/client && docker-compose up -d
-cd ../../socialdevelop/server && docker-compose up -d
-cd ../../secondtest/client && docker-compose up -d
-
-cd ../../reverse_proxy && docker-compose up -d
+cd reverse_proxy && docker-compose up -d && cd ..
+cd socialdevelop && docker-compose up -d && cd ..

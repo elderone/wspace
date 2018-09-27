@@ -1,26 +1,16 @@
 version: '3'
 
-networks:
-  socialdevelop-client-network:
-    external: true
-
-  socialdevelop-server-network:
-    external: true
-
-  secondtest-client-network:
-    external: true
-
 services:
-  proxy:
-    container_name: reverse-proxy
-    image: nginx:alpine
-    volumes:
-      - ./default.conf:/etc/nginx/conf.d/nginx.conf
-      - ./backend-not-found.html:/var/www/html/backend-not-found.html
-      - ./proxy.conf:/etc/nginx/includes/proxy.conf    
-    networks:
-      - socialdevelop-client-network
-      - socialdevelop-server-network
-      - secondtest-client-network
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
     ports:
-      - 80:80
+    - "80:80"
+    volumes:
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+    - webproxy
+
+networks:
+  webproxy:
+    external: true
